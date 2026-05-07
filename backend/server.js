@@ -24,9 +24,17 @@ app.use("/api", limiter);
 
 const contactLimiter = rateLimit({ windowMs: 60 * 60 * 1000, max: 10, message: "Too many contact requests" });
 
+// ── request logging ───────────────────────────────────────────────────────────
+app.use((req, res, next) => {
+  if (process.env.NODE_ENV !== "test") {
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  }
+  next();
+});
+
 // ── body parsing ──────────────────────────────────────────────────────────────
-app.use(express.json({ limit: "10kb" }));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: "1mb" }));
+app.use(express.urlencoded({ extended: true, limit: "1mb" }));
 
 // ── routes ────────────────────────────────────────────────────────────────────
 app.use("/api/about",      require("./routes/about"));
@@ -36,6 +44,9 @@ app.use("/api/projects",   require("./routes/projects"));
 app.use("/api/skills",     require("./routes/skills"));
 app.use("/api/contact",    contactLimiter, require("./routes/contact"));
 app.use("/api/admin",      require("./routes/admin"));
+
+// ── welcome route ─────────────────────────────────────────────────────────────
+app.get("/", (_, res) => res.send("🚀 Pushkar's Portfolio API is live!"));
 
 // ── health check ──────────────────────────────────────────────────────────────
 app.get("/api/health", (_, res) => res.json({ status: "ok", time: new Date() }));
