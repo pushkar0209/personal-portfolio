@@ -9,7 +9,7 @@ import { ThreeDWrapper } from "@/components/ui/ThreeDWrapper";
 import {
   ExternalLink, ArrowUpRight, ChevronRight,
   Layers, Cpu, Globe, Code2, Sparkles, Star,
-  X, Github, Terminal, Info, Layout, Eye,
+  X, Terminal, Info, Layout, Eye,
   BarChart, TrendingUp, Search
 } from "lucide-react";
 
