@@ -1,0 +1,31 @@
+services:
+  # Backend API
+  - type: web
+    name: portfolio-backend
+    env: node
+    rootDir: backend
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ADMIN_USERNAME
+        value: pushkar
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: CLIENT_URL
+        sync: false
+
+  # Frontend Next.js App
+  - type: web
+    name: portfolio-frontend
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NEXT_PUBLIC_API_URL
+        sync: false
